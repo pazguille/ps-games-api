@@ -1,0 +1,27 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/image/:path*",
+      "destination": "/api/image"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/:path*",
+      "headers" : [
+        {
+          "key" : "Access-Control-Allow-Credential",
+          "value" : "true"
+        },
+        {
+          "key" : "Access-Control-Allow-Origin",
+          "value" : "*"
+        },
+        {
+          "key" : "Access-Control-Allow-Methods",
+          "value" : "GET"
+        }
+      ]
+    }
+  ]
+}
