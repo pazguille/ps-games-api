@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
       parent_platforms: 2, // play 4 & 5
     }}).then(response => response.data);
 
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=7200, stale-while-revalidate');
     return res.status(200).json(game);
   } catch(err) {
     console.log(err);
