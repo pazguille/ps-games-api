@@ -6,7 +6,7 @@ const sharp = require('sharp');
 module.exports = async (req, res) => {
   const path = req.params.path;
   const queryString = new URLSearchParams(req.query).toString();
-  const ps = `https://image.api.playstation.com/vulcan/ap/rnd/${path}?${queryString}`;
+  const ps = `https://image.api.playstation.com/${path}?${queryString}`;
 
   const response = await axios.get(ps, { responseType: 'arraybuffer' });
 
