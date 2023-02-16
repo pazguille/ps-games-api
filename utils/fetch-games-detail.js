@@ -24,6 +24,7 @@ async function fetchGamesDetail(id, store, lang) {
     .then(response => response.data.data.productRetrieve)
     .catch(err => { throw { error: err.response }; });
 
+
     const game = result.concept.products.filter(g => g.id === result.id)[0];
 
     const detail = await axios.get(`${API_URI_RAWG}/${slugify(game.name)}`, {
@@ -43,8 +44,8 @@ async function fetchGamesDetail(id, store, lang) {
     return {
       id: result.id,
       title: game.name,
-      developer: detail.developers ? detail.developers[0].name : null,
-      publisher: detail.publishers ? detail.publishers[0].name : null,
+      developer: detail?.developers?.length ? detail.developers[0].name : null,
+      publisher: detail?.publishers?.length ? detail.publishers[0].name : null,
       release_date: detail?.released,
       sold_separately: game.storeDisplayClassification === 'FULL_GAME',
       platforms: game.platforms,
@@ -54,10 +55,12 @@ async function fetchGamesDetail(id, store, lang) {
         off: Number(game.webctas[0].price.discountText?.replace(/(-|%)/gi, '')) || undefined,
       },
       description: detail?.description_raw,
-      images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'https://ps-games-api.vercel.app/api/image'), type: img.role.toLowerCase()})), 'type'),
+      // images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'https://ps-games-api.vercel.app/api/image'), type: img.role.toLowerCase()})), 'type'),
+      images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'http://localhost:3031/api/image'), type: img.role.toLowerCase()})), 'type'),
     };
 
   } catch (err) {
+    console.log(err);
     return err;
   }
 };

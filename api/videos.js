@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
       critic => ['playstation5', 'playstatio4'].includes(critic.platform.slug)
     );
 
-    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate');
+    res.header('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate');
 
     return res.status(200).json({
       full: game.clip?.clips.full,

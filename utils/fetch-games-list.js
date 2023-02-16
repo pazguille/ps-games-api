@@ -3,7 +3,7 @@ const groupBy = require('./group-by');
 
 const API_URL = 'https://web.np.playstation.com/api/graphql/v1/op';
 const lists = {
-  new: '0d8b3716-872d-4714-aae1-782e4d17ff31',
+  new: 'e1699f77-77e1-43ca-a296-26d08abacb0f',
   deals: '35027334-375e-423b-b500-0d4d85eff784',
   indies: '8ba4fbfb-79c9-49c3-9933-df364a4fe87e',
   ps5: 'd71e8e6d-0940-4e03-bd02-404fc7d31a31',
@@ -11,7 +11,8 @@ const lists = {
   best: 'e6b96a29-cafc-4a19-b78a-752e853862bb',
 
   free: 'd9930400-c5c7-4a06-a28d-cc74888426dc',
-  coming: '82ced94c-ed3f-4d81-9b50-4d4cf1da170b',
+  coming: '0d8b3716-872d-4714-aae1-782e4d17ff31',
+  // coming: '82ced94c-ed3f-4d81-9b50-4d4cf1da170b',
   all: '28c9c2b2-cecc-415c-9a08-482a605cb104',
   demos: '95601a70-7564-4771-b305-0283fe3593e4',
   vr: '95239ca7-2dcf-43d9-8d4b-b7672ee9304a',
@@ -52,7 +53,8 @@ async function fetchGamesList(list, count, skipitems, store, lang) {
         off: Number(game.price.discountText?.replace(/(-|%)/gi, '')) || undefined,
       } : null,
       description: null,
-      images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'https://ps-games-api.vercel.app/api/image'), type: img.role.toLowerCase()})), 'type'),
+      // images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'https://ps-games-api.vercel.app/api/image'), type: img.role.toLowerCase()})), 'type'),
+      images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'http://localhost:3031/api/image'), type: img.role.toLowerCase()})), 'type'),
     };
   });
 
