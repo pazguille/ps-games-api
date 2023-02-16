@@ -55,8 +55,8 @@ async function fetchGamesDetail(id, store, lang) {
         off: Number(game.webctas[0].price.discountText?.replace(/(-|%)/gi, '')) || undefined,
       },
       description: detail?.description_raw,
-      // images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'https://ps-games-api.vercel.app/api/image'), type: img.role.toLowerCase()})), 'type'),
-      images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'http://localhost:3031/api/image'), type: img.role.toLowerCase()})), 'type'),
+      images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'https://ps-games-api.fly.dev/api/image'), type: img.role.toLowerCase()})), 'type'),
+      // images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com/vulcan/ap/rnd', 'http://localhost:3031/api/image'), type: img.role.toLowerCase()})), 'type'),
     };
 
   } catch (err) {
