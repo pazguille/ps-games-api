@@ -16,13 +16,18 @@ const lists = {
   all: '28c9c2b2-cecc-415c-9a08-482a605cb104',
   demos: '95601a70-7564-4771-b305-0283fe3593e4',
   vr: '95239ca7-2dcf-43d9-8d4b-b7672ee9304a',
+  vr2: '62c2a3b6-41cf-4808-ba48-1e5581eeea35',
+};
+
+const sortBy = {
+  new: { "name":"conceptReleaseDate", "isAscending":false },
 };
 
 async function fetchGamesList(list, count, skipitems, store, lang) {
   const result = await axios.get(API_URL, {
     params: {
       operationName: 'categoryGridRetrieve',
-      variables: {"id": lists[list], "pageArgs":{ size: count, offset: skipitems },"sortBy":null,"filterBy":[],"facetOptions":[]},
+      variables: {"id": lists[list], "pageArgs":{ size: count, offset: skipitems },"sortBy":sortBy[list],"filterBy":[],"facetOptions":[]},
       extensions: {"persistedQuery":{"version":1,"sha256Hash":"4ce7d410a4db2c8b635a48c1dcec375906ff63b19dadd87e073f8fd0c0481d35"}},
     },
     headers: {
