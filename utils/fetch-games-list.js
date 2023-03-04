@@ -43,10 +43,11 @@ async function fetchGamesList(list, count, skipitems, store, lang) {
   }
 
   const games = result.map(game => {
+    const id = game.products?.length ? game.products[0].id : game.id;
     return {
       // id: game.products ? game.products.map(p => p.id) : game.id,
-      id: game.products?.length ? game.products[0].id : game.id,
-      concept: !game.products?.length,
+      id,
+      concept: !id.includes('_'),
       title: game.name,
       developer: null,
       publisher: null,
