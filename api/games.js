@@ -1,7 +1,7 @@
-import Joi from 'npm:joi';
-import fetchGamesList from '../utils/fetch-games-list.js';
-import fetchGamesDetail from '../utils/fetch-games-detail.js';
-import cors from '../utils/cors.js';
+import Joi from 'joi';
+import fetchGamesList from '@/utils/fetch-games-list.js';
+import fetchGamesDetail from '@/utils/fetch-games-detail.js';
+import cors from '@/utils/cors.js';
 
 const schema = Joi.object({
   list: Joi.string().valid('new', 'deals', 'indies', 'ps5', 'ps4', 'best', 'free', 'coming', 'all', 'demos', 'vr', 'vr2'),

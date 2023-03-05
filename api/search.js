@@ -1,6 +1,6 @@
-import Joi from 'npm:joi';
-import fetchSearchGames from '../utils/fetch-search-games.js';
-import cors from '../utils/cors.js';
+import Joi from 'joi';
+import fetchSearchGames from '@/utils/fetch-search-games.js';
+import cors from '@/utils/cors.js';
 
 const schema = Joi.object({
   q: Joi.string().required(),

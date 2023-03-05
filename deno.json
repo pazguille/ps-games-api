@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "start": "deno run -A --watch main.js"
+    "dev": "deno run --allow-net=0.0.0.0:8081,web.np.playstation.com,image.api.playstation.com,feeds.feedburner.com,api.rawg.io --allow-env=PORT --watch main.js",
+    "start": "deno run --allow-net=0.0.0.0:80,web.np.playstation.com,image.api.playstation.com,feeds.feedburner.com,api.rawg.io --allow-env=PORT main.js"
   },
   "importMap": "./import_map.json"
 }

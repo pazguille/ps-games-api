@@ -1,11 +1,11 @@
-import { Router } from "https://deno.land/x/acorn/mod.ts";
+import { Router } from 'acorn';
 
-import games from './api/games.js';
-import details from './api/details.js';
-import search from './api/search.js';
-import news from './api/news.js';
-import videos from './api/videos.js';
-import image from './api/image.js';
+import games from '@/api/games.js';
+import details from '@/api/details.js';
+import search from '@/api/search.js';
+import news from '@/api/news.js';
+import videos from '@/api/videos.js';
+import image from '@/api/image.js';
 
 const app = new Router();
 

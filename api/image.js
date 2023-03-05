@@ -1,10 +1,9 @@
-// import sharp from 'npm:sharp';
 import {
   ImageMagick,
   MagickFormat,
   initializeImageMagick,
-} from "https://deno.land/x/imagemagick_deno@0.0.19/mod.ts";
-import cors from '../utils/cors.js';
+} from 'imagemagick';
+import cors from '@/utils/cors.js';
 
 // https://image.api.playstation.com/vulcan/ap/rnd/202211/1009/r6tgTLr0VYsmGMRmaeVcsxkj.png?w=940&thumb=false
 // http://localhost:8081/api/image/vulcan/ap/rnd/202211/1009/r6tgTLr0VYsmGMRmaeVcsxkj.png
