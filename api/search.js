@@ -1,27 +1,39 @@
-const Joi = require('joi');
-const fetchSearchGames = require('../utils/fetch-search-games');
+import Joi from 'npm:joi';
+import fetchSearchGames from '../utils/fetch-search-games.js';
+import cors from '../utils/cors.js';
+
 const schema = Joi.object({
   q: Joi.string().required(),
   lang: Joi.string().default('es'),
   store: Joi.string().default('ar'),
 });
 
-module.exports = async (req, res) => {
-  const { value: query, error } = schema.validate(req.query);
+export default async (ctx) => {
+  const { value: query, error } = schema.validate(ctx.searchParams);
 
   if (error) {
-    return res.status(400).json(error.details.map(err => ({
+    return Response.json(error.details.map(err => ({
       param: err.path,
       type: err.type,
       message: err.message,
-    })));
+    })), { status: 400 });
   }
 
   try {
     const results = await fetchSearchGames(query.q, query.store, query.lang);
-    res.header('Cache-Control', 'public, max-age=0, s-maxage=7200, stale-while-revalidate');
-    return res.status(200).json(results);
-  } catch {
-    return res.status(200).json({});
+    return Response.json(results, {
+      status: results.code || 200,
+      headers: {
+        ...cors,
+        'Cache-Control': 'public, max-age=0, s-maxage=7200, stale-while-revalidate',
+      },
+    });
+  } catch (err) {
+    return Response.json({}, {
+      status: 200,
+      headers: {
+        ...cors,
+      },
+    });
   }
 }
