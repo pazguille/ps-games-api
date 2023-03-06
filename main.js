@@ -9,6 +9,7 @@ import image from '@/api/image.js';
 
 const app = new Router();
 
+app.get('/', () => Response.redirect('https://github.com/pazguille/ps-games-api/blob/deno/README.md', 301));
 app.get('/favicon.ico', ctx => new Response(null, { status: 204 }));
 app.get('/api/games', games);
 app.get('/api/details', details);
