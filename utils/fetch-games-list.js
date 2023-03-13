@@ -1,5 +1,4 @@
-const axios = require('axios');
-const groupBy = require('./group-by');
+import groupBy from './group-by.js';
 
 const API_URL = 'https://web.np.playstation.com/api/graphql/v1/op';
 const lists = {
@@ -23,20 +22,23 @@ const sortBy = {
   new: { "name":"conceptReleaseDate", "isAscending":false },
 };
 
-async function fetchGamesList(list, count, skipitems, store, lang) {
-  const result = await axios.get(API_URL, {
-    params: {
-      operationName: 'categoryGridRetrieve',
-      variables: {"id": lists[list], "pageArgs":{ size: count, offset: skipitems },"sortBy":sortBy[list],"filterBy":[],"facetOptions":[]},
-      extensions: {"persistedQuery":{"version":1,"sha256Hash":"4ce7d410a4db2c8b635a48c1dcec375906ff63b19dadd87e073f8fd0c0481d35"}},
-    },
+export default async function fetchGamesList(list, count, skipitems, store, lang) {
+  const q = new URLSearchParams({
+    'operationName': 'categoryGridRetrieve',
+    'variables': JSON.stringify({"id": lists[list], "pageArgs":{ size: count, offset: skipitems },"sortBy":sortBy[list],"filterBy":[],"facetOptions":[]}),
+    'extensions': JSON.stringify({"persistedQuery":{"version":1,"sha256Hash":"4ce7d410a4db2c8b635a48c1dcec375906ff63b19dadd87e073f8fd0c0481d35"}}),
+  });
+
+  const result = await fetch(`${API_URL}?${q}`, {
     headers: {
       'x-psn-store-locale-override': `${lang}-${store}`,
       'origin': 'https://store.playstation.com',
     },
   })
-  .then(response => response.data.data.categoryGridRetrieve?.products.length > 0 ? response.data.data.categoryGridRetrieve.products : response.data.data.categoryGridRetrieve?.concepts)
-  .catch(err => { throw { error: err.response }; });
+  .then(response => response.json())
+  .then(response => response.data.categoryGridRetrieve?.products.length > 0 ? response.data.categoryGridRetrieve.products : response.data.categoryGridRetrieve?.concepts)
+  .catch(err => { console.log(err); throw { error: err.response }; });
+
 
   if (result.length === 0) {
     return [];
@@ -60,12 +62,11 @@ async function fetchGamesList(list, count, skipitems, store, lang) {
         off: Number(game.price.discountText?.replace(/(-|%)/gi, '')) || undefined,
       } : null,
       description: null,
-      images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com', 'https://ps-games-api.fly.dev/api/image'), type: img.role.toLowerCase()})), 'type'),
+      images: groupBy(game.media.map(img => ({ url: img.url, type: img.role.toLowerCase()})), 'type'),
+      // images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com', 'https://ps-games-api.fly.dev/api/image'), type: img.role.toLowerCase()})), 'type'),
       // images: groupBy(game.media.map(img => ({ url: img.url.replace('https://image.api.playstation.com', 'http://localhost:3031/api/image'), type: img.role.toLowerCase()})), 'type'),
     };
   });
 
   return games;
 };
-
-module.exports = fetchGamesList;

@@ -1,4 +1,4 @@
-module.exports = function slugify(str) {
+export default function slugify(str) {
   return str
     .toString()
     .normalize('NFD')
