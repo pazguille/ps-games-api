@@ -1,4 +1,4 @@
-module.exports = function groupBy(xs, key) {
+export default function groupBy(xs, key) {
   const group = xs.reduce(function(rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
     return rv;

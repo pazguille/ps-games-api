@@ -1,12 +1,13 @@
-const axios = require('axios');
-const { parseStringPromise } = require('xml2js');
+import { parseStringPromise } from 'xml2js';
+import cors from '@/utils/cors.js';
 
-module.exports = async (req, res) => {
+export default async (ctx) => {
   try {
-    const feed = await axios.get('https://feeds.feedburner.com/PlaystationblogLatam')
-      .then(res => res.data)
-      .catch(err => { throw { error: err.response.data.error }; });
-    const result = await parseStringPromise(feed)
+    const feed = await fetch('https://feeds.feedburner.com/PlaystationblogLatam')
+    .then(res => res.text())
+    .catch(err => { throw { error: err.response.data.error }; });
+
+    const result = await parseStringPromise(feed);
     const news = result.rss.channel[0].item.map((n) => ({
       title: n.title[0],
       // image: n['media:thumbnail'][0].$.url,
@@ -14,9 +15,19 @@ module.exports = async (req, res) => {
       link: n.link[0],
     }));
 
-    res.header('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate');
-    return res.status(200).json(news);
-  } catch {
-    return res.status(200).json({});
+    return Response.json(news, {
+      status: 200,
+      headers: {
+        ...cors,
+        'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate',
+      },
+    });
+  } catch (err) {
+    return Response.json({}, {
+      status: 200,
+      headers: {
+        ...cors,
+      },
+    });
   }
 }

@@ -1,6 +1,7 @@
-const Joi = require('joi');
-const fetchGamesList = require('../utils/fetch-games-list');
-const fetchGamesDetail = require('../utils/fetch-games-detail');
+import Joi from 'joi';
+import fetchGamesList from '@/utils/fetch-games-list.js';
+import fetchGamesDetail from '@/utils/fetch-games-detail.js';
+import cors from '@/utils/cors.js';
 
 const schema = Joi.object({
   list: Joi.string().valid('new', 'deals', 'indies', 'ps5', 'ps4', 'best', 'free', 'coming', 'all', 'demos', 'vr', 'vr2'),
@@ -11,26 +12,32 @@ const schema = Joi.object({
   store: Joi.string().default('ar'),
 }).or('list', 'id');
 
-module.exports = async (req, res) => {
-  const { value: query, error } = schema.validate(req.query);
+export default async (ctx) => {
+  const { value: query, error } = schema.validate(ctx.searchParams);
 
   if (error) {
-    return res.status(400).json(error.details.map(err => ({
+    return Response.json(error.details.map(err => ({
       param: err.path,
       type: err.type,
       message: err.message,
-    })));
+    })), { status: 400 });
   }
 
-  res.header('Cache-Control', 'public, max-age=0, s-maxage=7200, stale-while-revalidate');
+  let results = null;
 
   if (query.list) {
-    const results = await fetchGamesList(query.list, query.count, query.skipitems, query.store, query.lang);
-    return res.status(results.code || 200).json(results);
+    results = await fetchGamesList(query.list, query.count, query.skipitems, query.store, query.lang);
   }
 
   if (query.id) {
-    const results = await fetchGamesDetail(query.id, query.store, query.lang);
-    return res.status(results.code || 200).json(results);
+    results = await fetchGamesDetail(query.id, query.store, query.lang);
   }
-}
+
+  return Response.json(results, {
+    status: results.code || 200,
+    headers: {
+      ...cors,
+      'Cache-Control': 'public, max-age=0, s-maxage=7200, stale-while-revalidate',
+    },
+  });
+};
