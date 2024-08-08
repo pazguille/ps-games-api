@@ -3,19 +3,19 @@ import groupBy from './group-by.js';
 const API_URL = 'https://web.np.playstation.com/api/graphql/v1/op';
 const lists = {
   new: 'e1699f77-77e1-43ca-a296-26d08abacb0f',
-  deals: '35027334-375e-423b-b500-0d4d85eff784',
-  indies: '8ba4fbfb-79c9-49c3-9933-df364a4fe87e',
-  ps5: 'd71e8e6d-0940-4e03-bd02-404fc7d31a31',
-  ps4: '85448d87-aa7b-4318-9997-7d25f4d275a4',
+  deals: 'dc464929-edee-48a5-bcd3-1e6f5250ae80',
+  indies: '4cc217c9-dda4-4959-8e08-2bf893c9acd4',
+  ps5: 'd0446d4b-dc9a-4f1e-86ec-651f099c9b29',
+  ps4: '30e3fe35-8f2d-4496-95bc-844f56952e3c',
   best: 'e6b96a29-cafc-4a19-b78a-752e853862bb',
 
-  free: 'd9930400-c5c7-4a06-a28d-cc74888426dc',
-  coming: '0d8b3716-872d-4714-aae1-782e4d17ff31',
-  // coming: '82ced94c-ed3f-4d81-9b50-4d4cf1da170b',
+  free: '4dfd67ab-4ed7-40b0-a937-a549aece13d0',
+  coming: '3bf499d7-7acf-4931-97dd-2667494ee2c9',
+
   all: '28c9c2b2-cecc-415c-9a08-482a605cb104',
   demos: '95601a70-7564-4771-b305-0283fe3593e4',
   vr: '95239ca7-2dcf-43d9-8d4b-b7672ee9304a',
-  vr2: '62c2a3b6-41cf-4808-ba48-1e5581eeea35',
+  vr2: '7b0ad209-dadd-4575-9e51-09ccc803deeb',
 };
 
 const sortBy = {
@@ -33,12 +33,13 @@ export default async function fetchGamesList(list, count, skipitems, store, lang
     headers: {
       'x-psn-store-locale-override': `${lang}-${store}`,
       'origin': 'https://store.playstation.com',
+      'apollographql-client-name': '@sie-ppr-web-store/app',
+      'apollographql-client-version': '@sie-ppr-web-store/app@0.90.0'
     },
   })
   .then(response => response.json())
   .then(response => response.data.categoryGridRetrieve?.products.length > 0 ? response.data.categoryGridRetrieve.products : response.data.categoryGridRetrieve?.concepts)
   .catch(err => { console.log(err); throw { error: err.response }; });
-
 
   if (result.length === 0) {
     return [];
