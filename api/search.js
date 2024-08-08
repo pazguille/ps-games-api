@@ -9,7 +9,7 @@ const schema = Joi.object({
 });
 
 export default async (ctx) => {
-  const { value: query, error } = schema.validate(ctx.searchParams);
+  const { value: query, error } = schema.validate(await ctx.queryParams());
 
   if (error) {
     return Response.json(error.details.map(err => ({

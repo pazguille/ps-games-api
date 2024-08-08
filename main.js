@@ -1,4 +1,4 @@
-import { Router } from 'acorn';
+import { Router } from "@oak/acorn";
 
 import games from '@/api/games.js';
 import details from '@/api/details.js';
@@ -16,6 +16,6 @@ app.get('/api/details', details);
 app.get('/api/search', search);
 app.get('/api/news', news);
 app.get('/api/videos', videos);
-app.get('/api/image/:path*', image);
+app.get('/api/image{/:path}*', image);
 
 app.listen({ port: Deno.env.get('PORT') || 8081 });

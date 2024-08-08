@@ -15,7 +15,8 @@ function getYoutube(game) {
 
 export default async (ctx) => {
   try {
-    const results = await Promise.all([getGame(ctx.searchParams.game), getYoutube(ctx.searchParams.game)]);
+    const searchParams = await ctx.queryParams();
+    const results = await Promise.all([getGame(searchParams.game), getYoutube(searchParams.game)]);
     const game = results[0];
     const youtube = results[1];
 
