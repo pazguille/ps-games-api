@@ -3,7 +3,7 @@ import {
   MagickFormat,
   initializeImageMagick,
 } from 'imagemagick';
-import cors from '@/utils/cors.js';
+import cors from 'ps/utils/cors.js';
 
 // https://image.api.playstation.com/vulcan/ap/rnd/202211/1009/r6tgTLr0VYsmGMRmaeVcsxkj.png?w=940&thumb=false
 // http://localhost:8081/api/image/vulcan/ap/rnd/202211/1009/r6tgTLr0VYsmGMRmaeVcsxkj.png

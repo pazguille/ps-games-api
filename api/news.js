@@ -1,5 +1,5 @@
 import { parseStringPromise } from 'xml2js';
-import cors from '@/utils/cors.js';
+import cors from 'ps/utils/cors.js';
 
 export default async (ctx) => {
   try {
