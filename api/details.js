@@ -1,4 +1,4 @@
-import cors from 'ps/utils/cors.js';
+import cors from '@/utils/cors.js';
 
 const API_URI = 'https://api.rawg.io/api/games';
 const API_KEY = 'c542e67aec3a4340908f9de9e86038af';
@@ -10,7 +10,8 @@ export default async (ctx) => {
       key: API_KEY,
       parent_platforms: 2, // play 4 & 5
     });
-    const game = await fetch(`${API_URI}/${ctx.searchParams.game}?${q}`)
+    const searchParams = await ctx.queryParams();
+    const game = await fetch(`${API_URI}/${searchParams.game}?${q}`)
     .then(response => response.json())
 
     return Response.json(game, {

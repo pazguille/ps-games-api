@@ -1,11 +1,11 @@
-import { Router } from 'acorn';
+import { Router } from "@oak/acorn";
 
-import games from 'ps/api/games.js';
-import details from 'ps/api/details.js';
-import search from 'ps/api/search.js';
-import news from 'ps/api/news.js';
-import videos from 'ps/api/videos.js';
-import image from 'ps/api/image.js';
+import games from '@/api/games.js';
+import details from '@/api/details.js';
+import search from '@/api/search.js';
+import news from '@/api/news.js';
+import videos from '@/api/videos.js';
+import image from '@/api/image.js';
 
 const app = new Router();
 
@@ -16,6 +16,6 @@ app.get('/api/details', details);
 app.get('/api/search', search);
 app.get('/api/news', news);
 app.get('/api/videos', videos);
-app.get('/api/image/:path*', image);
+app.get('/api/image{/:path}*', image);
 
 app.listen({ port: Deno.env.get('PORT') || 8081 });
