@@ -5,7 +5,6 @@
   },
   "imports": {
     "@/": "./",
-
     "acorn": "https://deno.land/x/acorn/mod.ts",
     "imagemagick": "https://deno.land/x/imagemagick_deno/mod.ts",
     "joi": "https://esm.sh/joi@17.8.3",
